@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 class user(models.Model):
     UserID = models.AutoField(primary_key=True)
@@ -10,4 +10,18 @@ class user(models.Model):
   
     def __str__(self):
             return self.EmailID
+
+class orders(models.Model):
+    OrdersId = models.IntegerField(primary_key=True,default=0)
+    DealerName = models.CharField(max_length=60)
+    TransporterName = models.CharField(max_length=560)
+    Address = models.CharField(max_length=100)
+    ProductName = models.CharField(max_length=60)
+    ProductQuantity = models.IntegerField()
+    DateStr = models.CharField(max_length=10)
+    TimeStr = models.CharField(max_length=10)
+    AddedTime = models.DateTimeField(default=timezone.now)
+    UpdatedTime = models.DateTimeField(default=timezone.now)
     
+    def __str__(self):
+            return self.DealerName
