@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'rest_framework',
+    # CORS
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +51,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     # CORS
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ['https://plant.krystacrop.com',]
+
 
 ROOT_URLCONF = 'krystabackend.urls'
 
@@ -79,6 +90,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'krystaApi',
+#         'USER': 'masteruser',
+#         'PASSWORD': 'Krysta2023',
+#         'HOST': 'krysta-postgres-sql.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
@@ -117,6 +138,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# if DEBUG:
+#     STATICFILES_DIRS = [STATIC_DIR,]
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR,'static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
