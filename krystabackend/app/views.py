@@ -12,6 +12,11 @@ from .serializers import UserSerializer,OrdersSerializer
 current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
 
+def Login(request):
+    return render(request, 'uifiles/login.html')
+
+
+
 @api_view(['POST'])
 def UserList(request):
     if request.method == 'POST':
