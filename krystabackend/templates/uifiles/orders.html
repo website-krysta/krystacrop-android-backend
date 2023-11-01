@@ -1,0 +1,56 @@
+{% extends 'uifiles/index.html' %}
+{% load static %}
+{% block sidecontent %}
+<div class="container-fluid">
+    <!--  Row 1 -->
+    <div class="row">
+      <div class="col-lg-12 d-flex align-items-strech">
+        <div class="card w-100">
+          <div class="card-body">
+            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                <div>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Dealer Name</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Cases</th>
+                            <th scope="col">Transport Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in Orderslist %}
+                          <tr>
+                            <th scope="row">{{item.DealerName}}</th>
+                            <th scope="row">{{item.ProductName}}</th>
+                            <th scope="row">{{item.ProductQuantity}}</th>
+                            <th scope="row">{{item.TransporterName}}</th>
+                            <th scope="row">{{item.Address}}</th>
+                            <th scope="row">{{item.DateStr}}</th>
+                            <th scope="row">{{item.TimeStr}}</th>
+                            
+                          </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                </div>
+           
+            </div>
+
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+    
+ 
+    <div class="py-6 px-6 text-center">
+      <p class="mb-0 fs-4">© 2023 All Rights reserved By  <a href="https://krystacrop.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Krystacrop</a> Design and Developed by <a href="https://dt7solutions.com/" target="_blank">DT7Solutions</a></p>
+    </div>
+  </div>
+
+{% endblock %}

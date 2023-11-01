@@ -1,9 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render,redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-
-
+from django.contrib import messages
+from django.http import JsonResponse, HttpResponseBadRequest
 import datetime
 # Create your views here.
 from .models import user,orders
@@ -13,8 +14,25 @@ current_date = datetime.datetime.now().date()
 current_date_time = datetime.datetime.now()
 
 def Login(request):
+    if request.method == "POST":
+        email = request.POST.get('email',"")
+        password = request.POST.get('password',"")
+        User = user.objects.all()
+        for myuser in User:
+            if myuser.EmailID == email and myuser.Password == password:
+                return JsonResponse({'message': 'Login successful'})
+                # return redirect('/myorders/') 
+                # return HttpResponseRedirect('/myorders/')
+            else:
+            # Authentication failed
+                return HttpResponseBadRequest('Invalid username or password')
+        
+        messages.error(request, 'Invalid username or password')
     return render(request, 'uifiles/login.html')
 
+def Orders(request):
+    Orders = orders.objects.all()
+    return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
 
 
 @api_view(['POST'])
