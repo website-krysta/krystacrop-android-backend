@@ -1,11 +1,15 @@
+.login-card .card{
+    width: 450px !important;
+    margin-left: -50px;
+}
 .c-body div img{
-    margin-left: 140px;
+    margin-left: 100px;
     margin-bottom: 25px;
 }
 
 .sidebar-item .sidebar-link{
     color:#2A3547;
-    background-color: none !important;
+    /* background-color: none !important; */
 }
 .sidebar-nav ul .sidebar-item.selected>.sidebar-link, .sidebar-nav ul .sidebar-item.selected>.sidebar-link.active, .sidebar-nav ul .sidebar-item>.sidebar-link.active {
     background-color: #ffff !important;
