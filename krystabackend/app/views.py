@@ -6,6 +6,7 @@ from rest_framework import status
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponseBadRequest
 import datetime
+from django.contrib.auth import logout
 # Create your views here.
 from .models import user,orders
 from .serializers import UserSerializer,OrdersSerializer
@@ -34,6 +35,11 @@ def Orders(request):
     Orders = orders.objects.all()
     return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
 
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/') 
 
 @api_view(['POST'])
 def UserList(request):

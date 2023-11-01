@@ -23,7 +23,7 @@ $(document).on('submit', '#loginform', function(event){
             if (xhr.status === 200) {
                 // Successful login
                 $('#loginform')[0].reset();
-                window.location.href = '/myorders/';
+                window.location.href = '/orders/';
                 
             } else {
                 alert("Unexpected response status");
