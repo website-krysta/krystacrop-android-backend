@@ -12,14 +12,14 @@ class user(models.Model):
             return self.EmailID
 
 class orders(models.Model):
-    OrdersId = models.IntegerField(primary_key=True,default=0)
+    OrdersId = models.AutoField(primary_key=True)
     DealerName = models.CharField(max_length=60)
     TransporterName = models.CharField(max_length=560)
     Address = models.CharField(max_length=100)
     ProductName = models.CharField(max_length=60)
     ProductQuantity = models.IntegerField()
-    DateStr = models.CharField(max_length=10)
-    TimeStr = models.CharField(max_length=10)
+    DateStr = models.CharField(max_length=12)
+    TimeStr = models.CharField(max_length=12)
     AddedTime = models.DateTimeField(default=timezone.now)
     UpdatedTime = models.DateTimeField(default=timezone.now)
     

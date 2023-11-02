@@ -78,7 +78,8 @@ def getOrders(request):
 @api_view(['POST'])
 def addOrdrs(request):
     if request.method == 'POST':
-        orders_data = OrdersSerializer(data = request.data)
+        # orders_data = OrdersSerializer(data = request.data)
+        orders_data = OrdersSerializer(data=request.data.get('orderslist', []), many=True)
         if orders_data.is_valid():
             orders_data.save()
             return Response(orders_data.initial_data, status=status.HTTP_201_CREATED)

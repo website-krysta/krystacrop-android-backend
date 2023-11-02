@@ -7,11 +7,7 @@
     margin-bottom: 25px;
 }
 
-.sidebar-item .sidebar-link{
-    color:#2A3547;
-    /* background-color: none !important; */
-}
-.sidebar-nav ul .sidebar-item.selected>.sidebar-link, .sidebar-nav ul .sidebar-item.selected>.sidebar-link.active, .sidebar-nav ul .sidebar-item>.sidebar-link.active {
-    background-color: #ffff !important;
-    color: #fff;
+table {
+    border: 1px solid black;
+    border-radius: 8px;
 }
