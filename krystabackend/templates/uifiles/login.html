@@ -2,8 +2,57 @@
 {% load static %}
 {% block content %}
 
+  <!-- Login Content -->
+  <div class="container-login">
+    <div class="row  justify-content-center">
+      <div class="col-xl-6 col-lg-12 col-md-9">
+        <div class="card shadow-sm my-5">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="login-form">
+                  <div class="text-center">
+                    <h1 class="h4 mb-4" style="color: #352e76;"><b>Login</b></h1>
+                    <div class="mb-5">
+                      <img src="{% static 'assets/img/krystacrop_logo.png' %}" width="100" alt="">
+                    </div>
+                  </div>
+                  <form class="user" method="post"  id="loginform" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                        placeholder="Enter Email Address">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Remember
+                          Me</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-tr-color w-100 py-8 fs-4 mb-4 rounded-2">
+                        LogIn
+                      </button>
+                    </div>
+                    
+                  </form>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Login Content -->
+
   <!--  Body Wrapper -->
-  <div class="page-wrapper" style="background-image: url(../../static/assets/images/backgrounds/login-background.png); background-position: center center; background-size: cover;" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  <!-- <div class="page-wrapper" style="background-image: url(../../static/assets/images/backgrounds/login-background.png); background-position: center center; background-size: cover;" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
     <div
       class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
@@ -38,7 +87,7 @@
                   <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">
                     LogIn
                   </button>
-                  <!-- <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"></a> -->
+           <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2"></a> 
                  
                 </form>
               </div>
@@ -47,6 +96,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
   {% endblock %}

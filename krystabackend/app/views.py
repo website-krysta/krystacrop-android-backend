@@ -31,6 +31,10 @@ def Login(request):
         messages.error(request, 'Invalid username or password')
     return render(request, 'uifiles/login.html')
 
+# def index(request):
+#     return render(request, 'uifiles/index.html')
+
+
 def Orders(request):
     Orders = orders.objects.all()
     return render(request, 'uifiles/orders.html',{"Orderslist":Orders})

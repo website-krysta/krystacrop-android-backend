@@ -42,4 +42,3 @@ $(document).on('submit', '#loginform', function(event){
        });
    
     });
-   
