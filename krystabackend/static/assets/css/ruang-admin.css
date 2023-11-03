@@ -1944,7 +1944,7 @@ body.sidebar-toggled footer.sticky-footer {
   background-size: cover;
   height: 100vh !important;
 }
-.card{
+.container-login .card{
   width: 80%;
   margin: auto;
 }  
