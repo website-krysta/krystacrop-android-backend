@@ -75,12 +75,24 @@ def getOrders(request):
         serializer_data = OrdersSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
-@api_view(['POST'])
+@api_view(['POST']) 
 def addOrdrs(request):
     if request.method == 'POST':
-        # orders_data = OrdersSerializer(data = request.data)
         orders_data = OrdersSerializer(data=request.data.get('orderslist', []), many=True)
         if orders_data.is_valid():
             orders_data.save()
-            return Response(orders_data.initial_data, status=status.HTTP_201_CREATED)
+            return Response({"message": "Orders added successfully"}, status=status.HTTP_201_CREATED)
         return Response(orders_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# @api_view(['POST'])
+# def addOrdrs(request):
+#     if request.method == 'POST':
+#         # orders_data = OrdersSerializer(data = request.data)
+#         orders_data = OrdersSerializer(data=request.data.get('orderslist', []), many=True)
+#         if orders_data.is_valid():
+#             orders_data.save()
+#             return Response({"message": "Orders added successfully"}, status=status.HTTP_201_CREATED)
+#             # return Response(orders_data.initial_data, status=status.HTTP_201_CREATED)
+#         return Response(orders_data.errors, status=status.HTTP_400_BAD_REQUEST)
