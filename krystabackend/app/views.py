@@ -75,7 +75,7 @@ def UserList(request):
 @api_view(['GET'])
 def getOrders(request):
     if request.method == 'GET':
-        queryset = orders.objects.all()
+        queryset = orders.objects.all().order_by('-OrdersId')
         serializer_data = OrdersSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
@@ -85,8 +85,8 @@ def addOrdrs(request):
         orders_data = OrdersSerializer(data=request.data.get('orderslist', []), many=True)
         if orders_data.is_valid():
             orders_data.save()
-            return Response({"message": "Orders added successfully"}, status=status.HTTP_201_CREATED)
-        return Response(orders_data.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'StatusCode' : 200,'Message' :'Orders added successfully'}, status=status.HTTP_200_OK)
+        return Response({'StatusCode' :400,'Message' :'Something went wrong, please try again'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

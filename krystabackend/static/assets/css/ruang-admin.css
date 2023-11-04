@@ -1925,8 +1925,8 @@ body.sidebar-toggled footer.sticky-footer {
   border: 1px solid rgb(231, 228, 228) !important;
 }
 .table-heade {
-  background-color: #352d7e;
-  color: white;
+  background-color: #f4f2ff;
+  color: rgb(0, 0, 0);
 }
 .btn-tr-color{
   color: white;
@@ -1948,3 +1948,16 @@ body.sidebar-toggled footer.sticky-footer {
   width: 80%;
   margin: auto;
 }  
+
+#wrapper #content-wrapper {
+  background-color: #ffffff !important;
+  width: 100%;
+  overflow-x: hidden;
+}
+.dataTables_length{
+  display: none !important;
+}
+#dataTableHover_filter {
+display: none;
+ 
+} 
