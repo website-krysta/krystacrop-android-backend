@@ -75,7 +75,10 @@ def UserList(request):
 @api_view(['GET'])
 def getOrders(request):
     if request.method == 'GET':
-        queryset = orders.objects.all().order_by('-OrdersId')
+        queryset = orders.objects.order_by('-OrdersId')
+        # queryset = orders.objects.order_by('OrdersId')
+        # RawMaterial.objects.all().order_by('-MaterialID')
+        
         serializer_data = OrdersSerializer(queryset ,many=True)
         return Response(serializer_data.data)
 
