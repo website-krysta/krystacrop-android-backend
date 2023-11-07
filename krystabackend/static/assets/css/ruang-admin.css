@@ -594,11 +594,11 @@ a:focus {
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {
   color: #858796;
-  background-color: #352e76;
+  background-color: #765d2e;
 }
 
 .bg-navbar {
-  background-color: #fffff
+  background-color: #ffffff;
 }
 
 .sidebar {
@@ -1172,7 +1172,8 @@ a:focus {
 .sidebar-dark .nav-item .nav-link:active,
 .sidebar-dark .nav-item .nav-link:focus,
 .sidebar-dark .nav-item .nav-link:hover {
-  color: #fff
+  color: #fff;
+  
 }
 
 .sidebar-dark .nav-item .nav-link:active i,
@@ -1956,11 +1957,14 @@ body.sidebar-toggled footer.sticky-footer {
   overflow-x: hidden;
 }
 .dataTables_length{
-  display: block !important;
+  display: none !important;
 }
 #dataTableHover_filter {
 display: block;
 margin-left: 70%; 
+position: relative;
+margin-top: -15px;
+margin-bottom: 10px;
 
 } 
 
@@ -1983,6 +1987,8 @@ table.dataTable thead .sorting:before{
 
 #dateFilterForm{
   display: flex;
+  position: absolute;
+  padding-top:10px;
 }
 #dateFilterForm .form-control{
   width: 200px !important;
@@ -1991,3 +1997,30 @@ table.dataTable thead .sorting:before{
   font-weight: 600;
   color:#352E76;
 }
+
+table.dataTable .table-heade{
+  border-bottom: none !important;
+}
+table.dataTable.no-footer {
+  border-bottom: 1px solid #dbdada  !important;
+}
+
+.sidebar-light .nav-item .nav-link {
+  color: #0f0fd3;
+}
+.sidebar-light .nav-item.active .nav-link {
+  color: #0f0fd3;
+  background-color: #f4f4f4;
+}
+.sidebar-light .nav-item .nav-link i {
+  color: #3ba83d;
+}
+.sidebar-light .nav-item.active .nav-link i {
+  color: #3ba83d;
+}
+.table.dataTable thead{
+  border-bottom: none !important;
+}
+/* #dataTableHover_filter .form-control{
+ 
+} */

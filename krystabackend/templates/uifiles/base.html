@@ -14,6 +14,10 @@
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'assets/css/ruang-admin.min.css' %}" rel="stylesheet">
   <link href="{% static 'assets/css/ruang-admin.css' %}" rel="stylesheet">
+ 
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
 </head>
 
 <body id="page-top">
@@ -37,17 +41,21 @@
 <script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'assets/js/login.js' %}"></script>
+<!-- DataTables Buttons JavaScript -->
+<!-- <script src="https://cdn.datatables.net/buttons/2.3.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.html5.min.js"></script> -->
+
  <!-- Page level custom scripts -->
  <script>
   $(document).ready(function () {
     //var table = $('#dataTable').DataTable(); 
-    var table = $('#dataTableHover').DataTable();
+    var table = $('#dataTableHover').DataTable({});
 
-  /* $('#fromDate, #toDate').on('change', function() {
+$('#fromDate, #toDate').on('change', function() {
       var fromDate = $('#fromDate').val();
       var toDate = $('#toDate').val();
       table.column(0).between(fromDate, toDate).draw();
-  });  */
+  });  
 
   });
 </script>

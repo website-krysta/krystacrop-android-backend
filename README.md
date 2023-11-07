@@ -37,3 +37,6 @@ python manage.py runserver
 
 # note:
 # pip freeze > requirements.txt 
+
+
+<!-- {"orderslist":[{"ProductQuantity":36,"TimeStr":"22:57","Address":"gghgg","ProductName":"ARROW_40×250 ML","TransporterName":"AMMA ROAD CARRIERS","AddedTime":"2023-10-30T12:28:36Z","UpdatedTime":"2023-10-30T12:28:36Z","OrdersId":0,"DateStr":"02-11-2023","DealerName":"RAVIKIRAN AGENCIES-Adoni_L0245"},{"ProductQuantity":58,"TimeStr":"22:57","Address":"gghgg","ProductName":"ARROW_50×100 ML","TransporterName":"AMMA ROAD CARRIERS","AddedTime":"2023-10-30T12:28:36Z","UpdatedTime":"2023-10-30T12:28:36Z","OrdersId":0,"DateStr":"02-11-2023","DealerName":"RAVIKIRAN AGENCIES-Adoni_L0245"}]} -->
