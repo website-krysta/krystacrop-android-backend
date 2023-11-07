@@ -17,9 +17,19 @@
     <!-- Datatables -->
     <div class="col-lg-12">
       <div class="card mb-4">
-        <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Orders List</h6>
-        </div> -->
+        <div class="row px-2 my-3">
+          <div class="col-lg-12">
+              <form id="dateFilterForm">
+                {% csrf_token %}
+                <label for="fromDate" class="my-2 mx-2  date-label">From Date&nbsp;:</label>
+                  <input type="date" class="form-control" id="fromDate" name="fromDate">&nbsp;&nbsp;&nbsp;
+
+                <label for="toDate" class="my-2 mx-2 date-label">To Date&nbsp;:</label>&nbsp;
+                  <input type="date" class="form-control" id="toDate" name="toDate">&nbsp;&nbsp;&nbsp;
+
+                  <button type="button" class="btn btn-tr-color" onclick="filterAndDownload()">Filter & Download</button>
+              </form>
+          </div>
         <div class="table-responsive p-3">
           <table class="table align-items-center table-flush table-hover" id="dataTableHover">
             <thead class="table-heade">
@@ -35,7 +45,7 @@
             </thead>
             <tbody>
               {% for item in Orderslist %}
-              <tr>
+              <tr class="orderdata">
                 <!-- <td>{{item.OrdersId}}</td> -->
                 <td>{{item.DealerName}}</td>
                 <td>{{item.ProductName}}</td>
@@ -79,57 +89,27 @@
   </div>
 
 </div>
-<!---Container Fluid-->
-<!-- <div class="container-fluid">
 
-<div class="row">
-      <div class="col-lg-12 d-flex align-items-strech">
-        <div class="card w-100">
-          <div class="card-body">
-            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                <div>
-                    <table class="table">
-                        <thead>
-                          <tr class="header-th">
-                            <th scope="col" >Dealer Name</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Cases</th>
-                            <th scope="col">Transport Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in Orderslist %}
-                          <tr>
-                            <th scope="row">{{item.DealerName}}</th>
-                            <th scope="row">{{item.ProductName}}</th>
-                            <th scope="row">{{item.ProductQuantity}}</th>
-                            <th scope="row">{{item.TransporterName}}</th>
-                            <th scope="row">{{item.Address}}</th>
-                            <th scope="row">{{item.DateStr}}</th>
-                            <th scope="row">{{item.TimeStr}}</th>
-                            
-                          </tr>
-                          {% endfor %}
 
-                        </tbody>
-                      </table>
-                </div>
-           
-            </div>
+  <!-- filter and download data -->
+  <!-- <script>
+    function filterAndDownload() {
+        const fromDate = document.getElementById("fromDate").value;
+        const toDate = document.getElementById("toDate").value;
 
-          </div>
-        </div>
-      </div>
- 
-    </div> -->
-    
- 
-    <!-- <div class="py-6 px-6 text-center">
-      <p class="mb-0 fs-4">© 2023 All Rights reserved By  <a href="https://krystacrop.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Krystacrop</a> Design and Developed by <a href="https://dt7solutions.com/" target="_blank">DT7Solutions</a></p>
-    </div> 
-  </div> -->
+        // Send selected date range to the server to fetch filtered data
+        fetch(`/api/filterData?from=${fromDate}&to=${toDate}`)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'filteredData.csv'; // Change the filename as needed (e.g., 'filteredData.xls' for Excel)
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+    }
+</script> -->
 
 {% endblock %}

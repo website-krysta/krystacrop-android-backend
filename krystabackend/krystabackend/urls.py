@@ -19,7 +19,7 @@ from app.views import Login,Orders,logout_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Login, name="login"),
-    # path('index/', index, name='index'),
+    # path('filterdata/', filter_and_download, name='index'),
     path('logout/', logout_view, name='logout'),
     path('orders/', Orders, name="orders"),
     path('api/', include('app.urls'))

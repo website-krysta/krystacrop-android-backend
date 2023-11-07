@@ -42,3 +42,37 @@ $(document).on('submit', '#loginform', function(event){
        });
    
     });
+
+
+
+    function filterAndDownload() {
+        const fromDate = document.getElementById("fromDate").value;
+        const toDate = document.getElementById("toDate").value;
+        // const fromDate = moment(formattedFromDate).format('DD-MM-YYYY');
+        // const toDate = moment(formattedToDate).format('DD-MM-YYYY');
+        // Send selected date range to the server to fetch filtered data
+        fetch(`http://127.0.0.1:8000/api/filterData/${fromDate}/${toDate}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                } else {
+                    throw new Error('Network response was not ok.');
+                }
+            })
+            .then(blob => {
+                if (blob.size === 0) {
+                    alert('No data found.');
+                } else {
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'filteredData.csv'; // Change the filename as needed (e.g., 'filteredData.xls' for Excel)
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }

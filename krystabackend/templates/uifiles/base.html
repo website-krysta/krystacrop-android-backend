@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="{% static 'img/logo/logo.png' %}" rel="icon">
-  <title>RuangAdmin - Dashboard</title>
+  <title>KrystaCart - Dashboard</title>
   <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'assets/css/ruang-admin.min.css' %}" rel="stylesheet">
@@ -38,12 +38,22 @@
 <script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'assets/js/login.js' %}"></script>
  <!-- Page level custom scripts -->
- <!-- <script>
+ <script>
   $(document).ready(function () {
-    $('#dataTable').DataTable(); // ID From dataTable 
-    $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+    //var table = $('#dataTable').DataTable(); 
+    var table = $('#dataTableHover').DataTable();
+    // Create FromDate and ToDate inputs
+    $('#fromDate, #toDate').on('change', function() {
+      var fromDate = $('#fromDate').val();
+      var toDate = $('#toDate').val();
+
+      // Apply the date range filtering on the 'date' column (replace 0 with your date column index)
+      table.column(0).between(fromDate, toDate).draw();
   });
-</script> -->
+  //
+     // ID From dataTable with Hover
+  });
+</script>
 </body>
 
 </html>
