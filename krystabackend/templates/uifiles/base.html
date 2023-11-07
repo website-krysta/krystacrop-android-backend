@@ -42,18 +42,15 @@
   $(document).ready(function () {
     //var table = $('#dataTable').DataTable(); 
     var table = $('#dataTableHover').DataTable();
-    // Create FromDate and ToDate inputs
-    $('#fromDate, #toDate').on('change', function() {
+
+  /* $('#fromDate, #toDate').on('change', function() {
       var fromDate = $('#fromDate').val();
       var toDate = $('#toDate').val();
-
-      // Apply the date range filtering on the 'date' column (replace 0 with your date column index)
       table.column(0).between(fromDate, toDate).draw();
-  });
-  //
-     // ID From dataTable with Hover
+  });  */
+
   });
 </script>
 </body>
 
-</html>
+</html> 
