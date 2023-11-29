@@ -1962,7 +1962,7 @@ body.sidebar-toggled footer.sticky-footer {
 #dataTableHover_filter {
 display: block;
 margin-left: 70%; 
-position: relative;
+/* position: relative; */
 margin-top: -15px;
 margin-bottom: 10px;
 
@@ -1987,7 +1987,7 @@ table.dataTable thead .sorting:before{
 
 #dateFilterForm{
   display: flex;
-  position: absolute;
+  /* position: absolute; */
   padding-top:10px;
 }
 #dateFilterForm .form-control{
@@ -2024,3 +2024,12 @@ table.dataTable.no-footer {
 /* #dataTableHover_filter .form-control{
  
 } */
+
+.buttons{
+  margin-top: 2.5rem;
+}
+@media (max-width:576px){
+  .buttons{
+    margin-top: 0rem;
+  }
+}
