@@ -131,6 +131,7 @@
                   document.body.appendChild(a);
                   a.click();
                   window.URL.revokeObjectURL(url);
+                  window.location.href = '/orders/';
               }
           })
           .catch(error => {
