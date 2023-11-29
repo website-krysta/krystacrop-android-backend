@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+# '15.206.124.178','www.krystacart.com','krystacart.com'
 # Application definition
 
 INSTALLED_APPS = [
