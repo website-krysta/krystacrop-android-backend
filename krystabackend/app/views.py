@@ -38,10 +38,39 @@ def Login(request):
 #     return render(request, 'uifiles/index.html')
 
 
+# def Orders(request):
+#     Orders = orders.objects.all().order_by('-OrdersId')
+#     return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
+# def Orders(request):
+#     if request.method == "POST":
+#         fromDate=request.POST.get('fromDate')
+#         toDate=request.POST.get('toDate')
+#         searchresult = orders.objects.raw('select DealerName,ProductName,ProductQuantity,TransporterName,DateStr from orders where DateStr between "'+fromDate+'" and "'+toDate+'"')
+#         return render(request, 'uifiles/orders.html',{"Orderslist":searchresult})
+#     else:
+#         Orders = orders.objects.all().order_by('-OrdersId')
+#         return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
 def Orders(request):
-    Orders = orders.objects.all().order_by('-OrdersId')
-    return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
+    if request.method == "POST":
+        fromDate = request.POST.get('fromDate')
+        toDate = request.POST.get('toDate')
+        print(fromDate,toDate)
+        x = toDate
+        # Convert fromDate and toDate to datetime objects
+        from_date = datetime.strptime(fromDate, '%Y-%m-%d')
+        to_Date = datetime.strptime(toDate, '%Y-%m-%d')
+        formatted_f_date = from_date.strftime('%d-%m-%Y')
+        formatted_t_date = to_Date.strftime('%d-%m-%Y')
+      
+        print(formatted_f_date,formatted_t_date)
 
+        # Use Django ORM for filtering
+        search_result = orders.objects.filter(DateStr__range=[formatted_f_date,formatted_t_date]).order_by('-OrdersId')
+
+        return render(request, 'uifiles/orders.html', {"Orderslist": search_result,"fromDate": fromDate, "toDate": toDate})
+    else:
+        Orderslist = orders.objects.all().order_by('-OrdersId')
+        return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})
 
 
 def logout_view(request):
