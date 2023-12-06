@@ -1969,7 +1969,8 @@ margin-bottom: 10px;
 } 
 
 .orderdata td{
-  font-size: 15px !important;
+  font-size: 12px !important;
+  font-weight:bold!important;
 }
 table.dataTable thead .sorting:before{
   color: red !important;   

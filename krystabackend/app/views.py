@@ -13,6 +13,7 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from .models import user,orders
 from .serializers import UserSerializer,OrdersSerializer
+from django.db.models import Q
 
 current_date = datetime.now().date()
 current_date_time = datetime.now()
@@ -50,29 +51,50 @@ def Login(request):
 #     else:
 #         Orders = orders.objects.all().order_by('-OrdersId')
 #         return render(request, 'uifiles/orders.html',{"Orderslist":Orders})
+# def Orders(request):
+#     if request.method == "POST":
+#         fromDate = request.POST.get('fromDate')
+#         toDate = request.POST.get('toDate')
+#         print(fromDate,toDate)
+#         x = toDate
+      
+#         from_date = datetime.strptime(fromDate, '%Y-%m-%d')
+#         to_Date = datetime.strptime(toDate, '%Y-%m-%d')
+#         formatted_f_date = from_date.strftime('%d-%m-%Y')
+#         formatted_t_date = to_Date.strftime('%d-%m-%Y')
+      
+#         print(formatted_f_date,formatted_t_date)
+
+        
+#         search_result = orders.objects.filter(DateStr__range=[formatted_f_date,formatted_t_date]).order_by('-OrdersId')
+
+#         return render(request, 'uifiles/orders.html', {"Orderslist": search_result,"fromDate": fromDate, "toDate": toDate})
+#     else:
+#         Orderslist = orders.objects.all().order_by('-OrdersId')
+#         return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})
+
 def Orders(request):
     if request.method == "POST":
         fromDate = request.POST.get('fromDate')
         toDate = request.POST.get('toDate')
-        print(fromDate,toDate)
-        x = toDate
+        print(fromDate, toDate)
+
         # Convert fromDate and toDate to datetime objects
         from_date = datetime.strptime(fromDate, '%Y-%m-%d')
-        to_Date = datetime.strptime(toDate, '%Y-%m-%d')
-        formatted_f_date = from_date.strftime('%d-%m-%Y')
-        formatted_t_date = to_Date.strftime('%d-%m-%Y')
-      
-        print(formatted_f_date,formatted_t_date)
+        to_date = datetime.strptime(toDate, '%Y-%m-%d')
 
-        # Use Django ORM for filtering
-        search_result = orders.objects.filter(DateStr__range=[formatted_f_date,formatted_t_date]).order_by('-OrdersId')
+        # Fetch all orders and filter in Python code
+        all_orders = orders.objects.all().order_by('-OrdersId')
+        search_result = [
+            order for order in all_orders
+            if from_date <= datetime.strptime(order.DateStr, '%d-%m-%Y') <= to_date
+        ]
 
-        return render(request, 'uifiles/orders.html', {"Orderslist": search_result,"fromDate": fromDate, "toDate": toDate})
+        return render(request, 'uifiles/orders.html', {"Orderslist": search_result, "fromDate": fromDate, "toDate": toDate})
     else:
         Orderslist = orders.objects.all().order_by('-OrdersId')
         return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})
-
-
+    
 def logout_view(request):
     logout(request)
     return redirect('/') 
