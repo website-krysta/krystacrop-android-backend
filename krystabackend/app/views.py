@@ -14,6 +14,8 @@ from django.utils import timezone
 from .models import user,orders
 from .serializers import UserSerializer,OrdersSerializer
 from django.db.models import Q
+from dateutil import parser as date_parser
+from django.utils.dateparse import parse_datetime
 
 current_date = datetime.now().date()
 current_date_time = datetime.now()
@@ -73,28 +75,50 @@ def Login(request):
 #         Orderslist = orders.objects.all().order_by('-OrdersId')
 #         return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})
 
+
 def Orders(request):
     if request.method == "POST":
         fromDate = request.POST.get('fromDate')
         toDate = request.POST.get('toDate')
         print(fromDate, toDate)
 
-        # Convert fromDate and toDate to datetime objects
-        from_date = datetime.strptime(fromDate, '%Y-%m-%d')
-        to_date = datetime.strptime(toDate, '%Y-%m-%d')
+        
+        from_date = datetime.strptime(fromDate, '%Y-%m-%dT%H:%M')
+        to_date = datetime.strptime(toDate, '%Y-%m-%dT%H:%M')
+        formatted_f_date_str = from_date.strftime('%d-%m-%Y')
+        formatted_f_time_str = from_date.strftime('%H:%M')
+        formatted_t_date_str = to_date.strftime('%d-%m-%Y')
+        formatted_t_time_str = to_date.strftime('%H:%M')
 
-        # Fetch all orders and filter in Python code
+        print(formatted_f_date_str, formatted_f_time_str)
+        print(formatted_t_date_str, formatted_t_time_str)
+
+        
         all_orders = orders.objects.all().order_by('-OrdersId')
         search_result = [
             order for order in all_orders
-            if from_date <= datetime.strptime(order.DateStr, '%d-%m-%Y') <= to_date
+            if (formatted_f_date_str < order.DateStr or
+                (formatted_f_date_str == order.DateStr and formatted_f_time_str <= order.TimeStr)) and
+               (order.DateStr < formatted_t_date_str or
+                (order.DateStr == formatted_t_date_str and order.TimeStr <= formatted_t_time_str))
         ]
+        f_month_str = from_date.strftime('%m')
+        t_month_str = to_date.strftime('%m')
+        
+        final = [
+            item for item in search_result
+            if 
+        (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5] ) and
+       
+        (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5])
+]
+    
+        
 
-        return render(request, 'uifiles/orders.html', {"Orderslist": search_result, "fromDate": fromDate, "toDate": toDate})
+        return render(request, 'uifiles/orders.html', {"Orderslist": final, "fromDate": fromDate, "toDate": toDate})
     else:
         Orderslist = orders.objects.all().order_by('-OrdersId')
-        return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})
-    
+        return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})    
 def logout_view(request):
     logout(request)
     return redirect('/') 
@@ -147,58 +171,46 @@ def addOrdrs(request):
 
 
 #filter and download filter data ############################
-@api_view(['GET'])
-def filterData(request,fromdate,todate):
-    if request.method == 'GET':
-        fDate = fromdate
-        tDate = todate
-        fDate = datetime.strptime(fromdate, '%Y-%m-%d')
-        tDate = datetime.strptime(todate, '%Y-%m-%d')
-        # fDate = timezone.make_aware(datetime.strptime(fromdate, '%Y-%m-%d'))
-        # tDate = timezone.make_aware(datetime.strptime(todate, '%Y-%m-%d'))
-        '10-11-2023'
-        orders_data = orders.objects.all()
-        resultData = []
-        for item in orders_data:
-            day = item.DateStr[0:2]
-            month =item.DateStr[3:5]
-            year = item.DateStr[6:10]
-            formatted_date = f'{year}-{month}-{day}'
+# @api_view(['GET'])
+# def filterData(request,fromdate,todate):
+#     if request.method == 'GET':
+#         fDate = fromdate
+#         tDate = todate
+#         fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M')
+#         tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M')
+#         print(fDate,tDate)
+       
+#         orders_data = orders.objects.all()
+#         resultData = []
+#         for item in orders_data:
+#             day = item.DateStr[0:2]
+#             month =item.DateStr[3:5]
+#             year = item.DateStr[6:10]
+#             print(item.TimeStr)
+#             formatted_date = f'{year}-{month}-{day}'
+
           
-            iDate =  datetime.strptime(formatted_date, '%Y-%m-%d')
-            if fDate <= iDate <= tDate:
-                resultData.append(item)
-            # fday = fromdate[8:10]
-            # fmonth = fromdate[5:7]
-            # fyear = fromdate[0:4]
-             
-            # tfday = todate[8:10]
-            # tfmonth = todate[5:7]
-            # tfyear = todate[0:4]
-            # if (day >= fday and month >= fmonth and year>= fyear )
+#             iDate =  datetime.strptime(formatted_date, '%Y-%m-%d')
+#             if fDate <= iDate <= tDate:
+#                 resultData.append(item)
+#         response = HttpResponse(content_type='text/csv')
+#         response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
 
-        # orders_data = orders.objects.filter(datetime.strptime(DateStr, '%d-%m-%Y').date()=fDate)
-        # orders_data = orders.objects.filter(DateStr__range=[fromdate, todate])
-        # orders_data = OrdersSerializer(filtered_orders, many=True)
-        # Create a CSV response
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
+#         writer = csv.writer(response)
+#         writer.writerow(['Dealer Name', 'Product Name', 'Cases', 'Transport Name', 'Address', 'Date', 'Time'])
 
-        writer = csv.writer(response)
-        writer.writerow(['Dealer Name', 'Product Name', 'Cases', 'Transport Name', 'Address', 'Date', 'Time'])
+#         for order in resultData:
+#             writer.writerow([
+#                 order.DealerName,
+#                 order.ProductName,
+#                 order.ProductQuantity,
+#                 order.TransporterName,
+#                 order.Address,
+#                 order.DateStr,
+#                 order.TimeStr
+#             ])
 
-        for order in resultData:
-            writer.writerow([
-                order.DealerName,
-                order.ProductName,
-                order.ProductQuantity,
-                order.TransporterName,
-                order.Address,
-                order.DateStr,
-                order.TimeStr
-            ])
-
-        return response  
+#         return response  
         # return Response(orders_data.data)
         
 
@@ -218,32 +230,66 @@ def filterData(request,fromdate,todate):
 # from django.views.decorators.csrf import csrf_exempt
 # import csv
 
+# from dateutil import parser
 
-# def filter_and_download(request):
-#     if request.method == 'POST':
-#         from_date = request.POST.get('fromDate')
-#         to_date = request.POST.get('toDate')
 
-#         # Perform date-based filtering on the 'orders' table
-#         filtered_orders = orders.objects.filter(DateStr__range=[from_date, to_date])
 
-#         # Prepare filtered data as CSV and return as a downloadable file
-#         response = HttpResponse(content_type='text/csv')
-#         response['Content-Disposition'] = 'attachment; filename="filtered_orders.csv"'
 
-#         writer = csv.writer(response)
-#         writer.writerow(['DealerName', 'ProductName', 'ProductQuantity', 'TransporterName', 'Address', 'DateStr', 'TimeStr'])
+@api_view(['GET'])
+def filterData(request, fromdate, todate):
+    if request.method == 'GET':
+        fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M')
+        tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M')
 
-#         for order in filtered_orders:
-#             writer.writerow([
-#                 order.DealerName,
-#                 order.ProductName,
-#                 order.ProductQuantity,
-#                 order.TransporterName,
-#                 order.Address,
-#                 order.DateStr,
-#                 order.TimeStr
-#             ])
+        f_date_str = fDate.strftime('%d-%m-%Y')
+        f_time_str = fDate.strftime('%H:%M')
+        t_date_str = tDate.strftime('%d-%m-%Y')
+        t_time_str = tDate.strftime('%H:%M')
 
-#         return response
-#     return HttpResponse('Invalid Request')
+        print(f_date_str, f_time_str)
+        print(t_date_str, t_time_str)
+
+        all_orders = orders.objects.all().order_by('-OrdersId')
+        search_result = [
+            order for order in all_orders
+            if (f_date_str < order.DateStr or
+                (f_date_str == order.DateStr and f_time_str <= order.TimeStr)) and
+               (order.DateStr < t_date_str or
+                (order.DateStr == t_date_str and order.TimeStr <= t_time_str))
+        ]
+        f_month_str = fDate.strftime('%m')
+        t_month_str = tDate.strftime('%m')
+        
+        final = [
+            item for item in search_result
+            if 
+        (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5]  ) and
+       
+        (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5] )
+]
+        
+           
+
+
+       
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
+        
+
+        writer = csv.writer(response)
+        writer.writerow(['Dealer Name', 'Product Name', 'Cases', 'Transport Name', 'Address', 'Date', 'Time'])
+        print(final)
+        for order in final:
+            writer.writerow([
+                order.DealerName,
+                order.ProductName,
+                order.ProductQuantity,
+                order.TransporterName,
+                order.Address,
+                order.DateStr,
+                order.TimeStr
+            ])
+
+        return response
+   
