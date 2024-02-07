@@ -39,26 +39,27 @@
           <table class="table align-items-center table-flush table-hover" >
             <thead class="table-heade">
               <tr>
+		<th>OrderId</th>
                 <th>Dealer Name</th>
                 <th>Product Name</th>
                 <th>Cases</th>
                 <th>Transport Name</th>
                 <th>Address</th>
                 <th>Date</th>
-                <th>Time</th>
+               <!-- <th>Time</th>-->
               </tr>
             </thead>
             <tbody  id="ordersTableBody">
               {% for item in Orderslist %}
               <tr class="orderdata">
-                <!-- <td>{{item.OrdersId}}</td> -->
+                <td>{{item.OrdersId}}</td>
                 <td>{{item.DealerName}}</td>
                 <td>{{item.ProductName}}</td>
                 <td>{{item.ProductQuantity}}</td>
                 <td>{{item.TransporterName}}</td>
                 <td>{{item.Address}}</td>
                 <td>{{item.DateStr}}</td>
-                <td>{{item.TimeStr}}</td>
+                <!--<td>{{item.TimeStr}}</td>-->
               </tr>
               {% endfor %}
             </tbody>
@@ -112,7 +113,7 @@
 
 
 
-      fetch(`http://127.0.0.1:8000/api/filterData/${fromDate}/${toDate}`)
+      fetch(`https://krystacart.com/api/filterData/${fromDate}/${toDate}`)
           .then(response => {
               if (response.ok) {
                   return response.blob();
