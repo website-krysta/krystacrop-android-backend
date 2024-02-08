@@ -146,19 +146,7 @@ def filterData(request,fromdate,todate):
             iDate =  datetime.strptime(formatted_date, '%Y-%m-%d')
             if fDate <= iDate <= tDate:
                 resultData.append(item)
-            # fday = fromdate[8:10]
-            # fmonth = fromdate[5:7]
-            # fyear = fromdate[0:4]
-             
-            # tfday = todate[8:10]
-            # tfmonth = todate[5:7]
-            # tfyear = todate[0:4]
-            # if (day >= fday and month >= fmonth and year>= fyear )
 
-        # orders_data = orders.objects.filter(datetime.strptime(DateStr, '%d-%m-%Y').date()=fDate)
-        # orders_data = orders.objects.filter(DateStr__range=[fromdate, todate])
-        # orders_data = OrdersSerializer(filtered_orders, many=True)
-        # Create a CSV response
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
 
