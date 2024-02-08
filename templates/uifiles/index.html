@@ -1,0 +1,110 @@
+{% extends 'uifiles/base.html' %}
+{% load static %}
+{% block content %}
+  <!--  Body Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center pt-5 mt-3">
+    
+          <img src="{% static 'assets/img/krystacrop_logo.png' %}" height="120">
+    
+        <!-- <div class="sidebar-brand-text mx-3 text-dark">KrystaCrop</div> -->
+      </a>
+
+      <hr class="sidebar-divider my-0 mt-5">
+      <li class="nav-item  ">
+        <a class="nav-link">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <!-- <hr class="sidebar-divider"> -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/orders/">
+          <i class="fab fa-fw fa-wpforms"></i>
+          <span>Orders</span>
+        </a>
+      </li>
+      
+      <!-- <hr class="sidebar-divider"> -->
+      <hr class="sidebar-divider">
+      
+    </ul>
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- TopBar -->
+        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+          <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a> -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                aria-labelledby="searchDropdown">
+                <form class="navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
+                      aria-label="Search" aria-describedby="basic-addon2" style="border-color: #3f51b5;">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+       
+    
+      
+            <div class="topbar-divider d-none d-sm-block"></div>
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <img class="img-profile rounded-circle" src="{% static 'assets/img/boy.png' %}" style="max-width: 60px">
+                <span class="ml-2 d-none d-lg-inline text-white small">Admin</span> 
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+        
+                <!-- <div class="dropdown-divider"></div> -->
+                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+        {% block sidecontent %}
+        {% include 'orders.html' %}
+        {% endblock %}
+        <!---Container Fluid-->
+      </div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>© <script> document.write(new Date().getFullYear()); </script>  All rights reserved by <b><a href="https://www.krystacrop.com/" target="_blank">Krystacrop solutions</a></b>- developed by
+              <b><a href="https://dt7solutions.com/" target="_blank">DT7Solutions</a></b>
+            </span>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  {% endblock %}

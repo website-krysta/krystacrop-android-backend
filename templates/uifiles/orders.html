@@ -1,0 +1,147 @@
+{% extends 'uifiles/index.html' %}
+{% load static %}
+{% block sidecontent %}
+ <!-- Container Fluid-->
+ <div class="container-fluid" id="container-wrapper">
+  <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Orders List</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="./">Home</a></li>
+      <li class="breadcrumb-item">Orderslist</li>
+
+    </ol>
+  </div> -->
+
+  <!-- Row -->
+  <div class="row">
+    <!-- Datatables -->
+    <div class="col-lg-12">
+      <div class="card mb-4">
+        <div class="row px-2 my-3">
+          <div class="col-lg-12">
+              <form  method="POST" class="d-flex flex-wrap">
+                {% csrf_token %}
+                <div class="form-group col-md-4 col-12  mb-0">
+                <label for="fromDate" class="my-2 mx-2  date-label">From Date&nbsp;:</label>
+                  <input type="datetime-local" class="form-control" id="fromDate" name="fromDate" value="{{ fromDate }}"  >&nbsp;&nbsp;&nbsp;
+                 </div>
+                 <div class="form-group col-md-4 col-12  mb-0">
+                <label for="toDate" class="my-2 mx-2 date-label">To Date&nbsp;:</label>&nbsp;
+                  <input type="datetime-local" class="form-control" id="toDate" name="toDate" value="{{ toDate }}" >&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="form-group col-md-4 col-12 buttons"  >
+                  <button type="submit" class="btn btn-tr-color">filter</button>
+                  <button type="button" class="btn btn-tr-color" id="downloadButton"   onclick="filterAndDownload()">Download</button>
+                </div>
+              </form>
+          </div>
+        <div class="table-responsive p-3" >
+          <table class="table align-items-center table-flush table-hover" >
+            <thead class="table-heade">
+              <tr>
+                <th>Dealer Name</th>
+                <th>Product Name</th>
+                <th>Cases</th>
+                <th>Transport Name</th>
+                <th>Address</th>
+                <th>Date</th>
+                <!-- <th>Time</th> -->
+              </tr>
+            </thead>
+            <tbody  id="ordersTableBody">
+              {% for item in Orderslist %}
+              <tr class="orderdata">
+                <!-- <td>{{item.OrdersId}}</td> -->
+                <td>{{item.DealerName}}</td>
+                <td>{{item.ProductName}}</td>
+                <td>{{item.ProductQuantity}}</td>
+                <td>{{item.TransporterName}}</td>
+                <td>{{item.Address}}</td>
+                <td>{{item.DateStr}} {{item.TimeStr}}</td>
+                <!-- <td>{{item.TimeStr}}</td> -->
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Row-->
+
+  <!-- Documentation Link -->
+  
+  <!-- Modal Logout -->
+  <div class="modal fade mb-5" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/logout/" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  function updateDownloadButton() {
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+      const downloadButton = document.getElementById("downloadButton");
+
+    
+      downloadButton.disabled = fromDate === "" || toDate === "";
+  }
+
+  function filterAndDownload() {
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+     
+
+
+
+      fetch(`http://127.0.0.1:8000/api/filterData/${fromDate}/${toDate}`)
+          .then(response => {
+              if (response.ok) {
+                  return response.blob();
+              } else {
+                  throw new Error('Network response was not ok.');
+              }
+          })
+          .then(blob => {
+              if (blob.size === 0) {
+                  alert('No data found.');
+              } else {
+                  const url = window.URL.createObjectURL(new Blob([blob]));
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'filteredData.csv'; 
+                  document.body.appendChild(a);
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  window.location.href = '/orders/';
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+  }
+</script>
+
+
+
+
+{% endblock %}
