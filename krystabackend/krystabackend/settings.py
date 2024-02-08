@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-f)em=3&2&@&7dz3!97%m6zr4_@-bbtmv^8$q)1$ig0$+9$wc96
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['15.206.124.178']
+ALLOWED_HOSTS = ['*']
 
 # '15.206.124.178','www.krystacart.com','krystacart.com'
 # Application definition
@@ -85,22 +85,22 @@ WSGI_APPLICATION = 'krystabackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'krystaApi',
-#         'USER': 'masteruser',
-#         'PASSWORD': 'Krysta2023',
-#         'HOST': 'krysta-postgres-sql.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'db_krysta_android',
+        'USER': 'postgres',
+        'PASSWORD': 'krysta_android',
+        'HOST': 'krysta-android.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
