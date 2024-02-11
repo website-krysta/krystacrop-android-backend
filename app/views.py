@@ -7,7 +7,7 @@ from rest_framework import status
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponseBadRequest
 # import datetime
-from datetime import datetime
+from datetime import datetime, time
 from django.contrib.auth import logout
 # Create your views here.
 from django.utils import timezone
@@ -240,38 +240,39 @@ def filterData(request, fromdate, todate):
     if request.method == 'GET':
         fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M')
         tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M')
-
-        f_date_str = fDate.strftime('%d-%m-%Y')
-        f_time_str = fDate.strftime('%H:%M')
-        t_date_str = tDate.strftime('%d-%m-%Y')
-        t_time_str = tDate.strftime('%H:%M')
-
-        print(f_date_str, f_time_str)
-        print(t_date_str, t_time_str)
-
-        all_orders = orders.objects.all().order_by('-OrdersId')
-        search_result = [
-            order for order in all_orders
-            if (f_date_str < order.DateStr or
-                (f_date_str == order.DateStr and f_time_str <= order.TimeStr)) and
-               (order.DateStr < t_date_str or
-                (order.DateStr == t_date_str and order.TimeStr <= t_time_str))
-        ]
-        f_month_str = fDate.strftime('%m')
-        t_month_str = tDate.strftime('%m')
         
-        final = [
-            item for item in search_result
-            if 
-        (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5]  ) and
-       
-        (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5] )
-]
         
-           
+        start_day = f'{fDate.day:02}'
+        start_month = f'{fDate.month:02}'
+        
+        end_day = f'{tDate.day:02}'
+        end_month = f'{tDate.month:02}'
+        
+        
+        start_date = f"{start_day}-{start_month}-{fDate.year}"
+        end_date = f"{end_day}-{end_month}-{tDate.year}"
 
+        # f_date_str = fDate.strftime('%d-%m-%Y')
+        # f_time_str = fDate.strftime('%H:%M')
+        # t_date_str = tDate.strftime('%d-%m-%Y')
+        # t_time_str = tDate.strftime('%H:%M')
+        
+        # print(f_date_str, f_time_str)
+        # print(t_date_str, t_time_str)
 
+        all_orders = orders.objects.filter(Q(DateStr__icontains=str(start_date)) | Q(DateStr__icontains=str(end_date))).order_by('-OrdersId')
+        final = all_orders
+        # f_month_str = fDate.strftime('%m')
+        # t_month_str = tDate.strftime('%m')
+        
+#         final = [
+#             item for item in search_result
+#             if 
+#         (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5]  ) and
        
+#         (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5] )
+# ]
+        
 
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
@@ -279,7 +280,7 @@ def filterData(request, fromdate, todate):
 
         writer = csv.writer(response)
         writer.writerow(['Dealer Name', 'Product Name', 'Cases', 'Transport Name', 'Address', 'Date', 'Time'])
-        print(final)
+        # print(final)
         for order in final:
             writer.writerow([
                 order.DealerName,
