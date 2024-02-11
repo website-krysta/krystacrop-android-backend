@@ -16,6 +16,8 @@ from .serializers import UserSerializer,OrdersSerializer
 from django.db.models import Q
 from dateutil import parser as date_parser
 from django.utils.dateparse import parse_datetime
+from django.db.models import F, Value, DateTimeField, Func
+from django.db.models.functions import Cast
 
 current_date = datetime.now().date()
 current_date_time = datetime.now()
@@ -81,41 +83,31 @@ def Orders(request):
         fromDate = request.POST.get('fromDate')
         toDate = request.POST.get('toDate')
         print(fromDate, toDate)
+        if fromDate is not None and fromDate != '':
+            try:
+                fromDate = datetime.strptime(fromDate, '%Y-%m-%dT%H:%M')
+            except:
+                fromDate = datetime.strptime(fromDate, '%Y-%m-%dT%H:%M:%S')
+        else:
+            fromDate = datetime.now()
+            
+        if toDate is not None and toDate != '':
+            try:
+                toDate = datetime.strptime(toDate, '%Y-%m-%dT%H:%M')
+            except:
+                toDate = datetime.strptime(toDate, '%Y-%m-%dT%H:%M:%S')
+        else:
+            toDate = datetime.now()
 
         
-        from_date = datetime.strptime(fromDate, '%Y-%m-%dT%H:%M')
-        to_date = datetime.strptime(toDate, '%Y-%m-%dT%H:%M')
-        formatted_f_date_str = from_date.strftime('%d-%m-%Y')
-        formatted_f_time_str = from_date.strftime('%H:%M')
-        formatted_t_date_str = to_date.strftime('%d-%m-%Y')
-        formatted_t_time_str = to_date.strftime('%H:%M')
-
-        print(formatted_f_date_str, formatted_f_time_str)
-        print(formatted_t_date_str, formatted_t_time_str)
-
+        start_date = datetime.combine(fromDate, time.min)
+        end_date = datetime.combine(toDate, time.max)
         
-        all_orders = orders.objects.all().order_by('-OrdersId')
-        search_result = [
-            order for order in all_orders
-            if (formatted_f_date_str < order.DateStr or
-                (formatted_f_date_str == order.DateStr and formatted_f_time_str <= order.TimeStr)) and
-               (order.DateStr < formatted_t_date_str or
-                (order.DateStr == formatted_t_date_str and order.TimeStr <= formatted_t_time_str))
-        ]
-        f_month_str = from_date.strftime('%m')
-        t_month_str = to_date.strftime('%m')
-        
-        final = [
-            item for item in search_result
-            if 
-        (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5] ) and
-       
-        (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5])
-]
-    
-        
+        all_orders = orders.objects.all().values(order_date = Cast(Func(F('DateStr'), Value('dd-MM-YYYY'), function='to_date'), output_field=DateTimeField())).filter(order_date__range=[start_date, end_date]).values().order_by('-OrdersId')
 
-        return render(request, 'uifiles/orders.html', {"Orderslist": final, "fromDate": fromDate, "toDate": toDate})
+        final = all_orders
+        
+        return render(request, 'uifiles/orders.html', {"Orderslist": final, "fromDate": datetime.strftime(fromDate,'%Y-%m-%d %H:%M:%S'), "toDate": datetime.strftime(toDate,'%Y-%m-%d %H:%M:%S')})
     else:
         Orderslist = orders.objects.all().order_by('-OrdersId')
         return render(request, 'uifiles/orders.html', {"Orderslist": Orderslist})    
@@ -238,42 +230,39 @@ def addOrdrs(request):
 @api_view(['GET'])
 def filterData(request, fromdate, todate):
     if request.method == 'GET':
-        fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M')
-        tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M')
+        
+        if fromdate is not None and fromdate != '':
+            try:
+                fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M')
+            except:
+                fDate = datetime.strptime(fromdate, '%Y-%m-%dT%H:%M:%S')
+        else:
+            fDate = datetime.now()
+            
+        if todate is not None and todate != '':
+            try:
+                tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M')
+            except:
+                tDate = datetime.strptime(todate, '%Y-%m-%dT%H:%M:%S')
+        else:
+            tDate = datetime.now()
+        
+        # start_day = f'{fDate.day:02}'
+        # start_month = f'{fDate.month:02}'
+        
+        # end_day = f'{tDate.day:02}'
+        # end_month = f'{tDate.month:02}'
         
         
-        start_day = f'{fDate.day:02}'
-        start_month = f'{fDate.month:02}'
+        # start_date = f"{start_day}-{start_month}-{fDate.year}"
+        # end_date = f"{end_day}-{end_month}-{tDate.year}"
         
-        end_day = f'{tDate.day:02}'
-        end_month = f'{tDate.month:02}'
+        start_date = datetime.combine(fDate, time.min)
+        end_date = datetime.combine(tDate, time.max)
         
-        
-        start_date = f"{start_day}-{start_month}-{fDate.year}"
-        end_date = f"{end_day}-{end_month}-{tDate.year}"
-
-        # f_date_str = fDate.strftime('%d-%m-%Y')
-        # f_time_str = fDate.strftime('%H:%M')
-        # t_date_str = tDate.strftime('%d-%m-%Y')
-        # t_time_str = tDate.strftime('%H:%M')
-        
-        # print(f_date_str, f_time_str)
-        # print(t_date_str, t_time_str)
-
-        all_orders = orders.objects.filter(Q(DateStr__icontains=str(start_date)) | Q(DateStr__icontains=str(end_date))).order_by('-OrdersId')
+        all_orders = orders.objects.all().values(order_date = Cast(Func(F('DateStr'), Value('dd-MM-YYYY'), function='to_date'), output_field=DateTimeField())).filter(order_date__range=[start_date, end_date]).values().order_by('-OrdersId')
         final = all_orders
-        # f_month_str = fDate.strftime('%m')
-        # t_month_str = tDate.strftime('%m')
-        
-#         final = [
-#             item for item in search_result
-#             if 
-#         (f_month_str == item.DateStr[3:5] or t_month_str == item.DateStr[3:5]  ) and
-       
-#         (item.DateStr[3:5] == t_month_str or f_month_str == item.DateStr[3:5] )
-# ]
-        
-
+    
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="orders_data.csv"'
         
@@ -283,13 +272,13 @@ def filterData(request, fromdate, todate):
         # print(final)
         for order in final:
             writer.writerow([
-                order.DealerName,
-                order.ProductName,
-                order.ProductQuantity,
-                order.TransporterName,
-                order.Address,
-                order.DateStr,
-                order.TimeStr
+                order['DealerName'],
+                order['ProductName'],
+                order['ProductQuantity'],
+                order['TransporterName'],
+                order['Address'],
+                order['DateStr'],
+                order['TimeStr']
             ])
 
         return response

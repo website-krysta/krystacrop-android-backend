@@ -25,6 +25,7 @@
                 <label for="fromDate" class="my-2 mx-2  date-label">From Date&nbsp;:</label>
                   <input type="datetime-local" class="form-control" id="fromDate" name="fromDate" value="{{ fromDate }}"  >&nbsp;&nbsp;&nbsp;
                  </div>
+                
                  <div class="form-group col-md-4 col-12  mb-0">
                 <label for="toDate" class="my-2 mx-2 date-label">To Date&nbsp;:</label>&nbsp;
                   <input type="datetime-local" class="form-control" id="toDate" name="toDate" value="{{ toDate }}" >&nbsp;&nbsp;&nbsp;
@@ -32,9 +33,11 @@
                   <div class="form-group col-md-4 col-12 buttons"  >
                   <button type="submit" class="btn btn-tr-color">filter</button>
                   <button type="button" class="btn btn-tr-color" id="downloadButton"   onclick="filterAndDownload()">Download</button>
+                  <button type="button" class="btn btn-tr-color" onclick="update_filter_result()">Clear Filter</button>
                 </div>
               </form>
           </div>
+          
         <div class="table-responsive p-3" >
           <table class="table align-items-center table-flush table-hover" >
             <thead class="table-heade">
@@ -104,6 +107,12 @@
 
     
       downloadButton.disabled = fromDate === "" || toDate === "";
+  }
+
+  function update_filter_result(){
+    document.getElementById("fromDate").value = null;
+    document.getElementById("toDate").value = null;
+    location.href = '/orders/'
   }
 
   function filterAndDownload() {
