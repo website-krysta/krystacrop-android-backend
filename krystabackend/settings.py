@@ -85,22 +85,22 @@ WSGI_APPLICATION = 'krystabackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'krystaApi',
-#         'USER': 'masteruser',
-#         'PASSWORD': 'Krysta2023',
-#         'HOST': 'krysta-postgres-sql.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db_krysta_prod',
+        'USER': 'postgres',
+        'PASSWORD': 'krysta_android',
+        'HOST': 'krysta-android.cvmiveru2zac.ap-south-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
